@@ -7,10 +7,14 @@ import os
 # Adjust path so Flask knows where the HTML is
 app = Flask(__name__, static_folder='../frontend', static_url_path='/')
 CORS(app)
-
+from flask import send_from_directory
 @app.route('/')
-def serve_home():
-    return send_from_directory(app.static_folder, 'index.html')
+def serve_html():
+    return send_from_directory('../frontend', 'index.html')
+
+#@app.route('/')
+#def serve_home():
+ #   return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/feedback', methods=['POST'])
 def submit_feedback():

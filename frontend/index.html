@@ -2,46 +2,34 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8" />
+    <title>Feedback Collector</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: monospace;
             max-width: 800px;
             margin: 40px auto;
-            padding: 20px;
-            background-color: #f8f9fa;
-            color: #333;
+            padding: 10px;
+            background-color: white;
+            color: black;
         }
 
         h1 {
             text-align: center;
-            color: #0d6efd;
         }
 
         textarea {
             width: 100%;
             height: 80px;
-            padding: 10px;
+            padding: 5px;
             font-size: 14px;
-            resize: vertical;
         }
 
         select,
         button {
-            padding: 8px 12px;
+            padding: 5px 10px;
             font-size: 14px;
             margin-top: 5px;
-        }
-
-        button {
-            background-color: #0d6efd;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #084298;
         }
 
         ul {
@@ -50,20 +38,15 @@
         }
 
         li {
-            background: #ffffff;
-            padding: 15px;
             margin-bottom: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 5px;
+            border: 1px dashed #999;
         }
 
         small {
-            color: gray;
+            color: #444;
         }
     </style>
-
-    <meta charset="UTF-8" />
-    <title>Feedback Collector</title>
 </head>
 
 <body>
@@ -74,11 +57,11 @@
 
         <label for="rating">Rating (1 to 5):</label>
         <select id="rating" required>
-            <option value="1">⭐</option>
-            <option value="2">⭐⭐</option>
-            <option value="3">⭐⭐⭐</option>
-            <option value="4">⭐⭐⭐⭐</option>
-            <option value="5">⭐⭐⭐⭐⭐</option>
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
         </select><br><br>
 
         <button type="submit">Submit Feedback</button>
@@ -86,21 +69,21 @@
 
     <h2>All Feedbacks</h2>
     <ul id="feedbackList"></ul>
+
     <button onclick="downloadCSV()">Download CSV</button>
     <button onclick="downloadJSON()">Download JSON</button>
-
 
     <script>
         const form = document.getElementById('feedbackForm');
         const feedbackList = document.getElementById('feedbackList');
 
         const loadFeedbacks = async () => {
-            const res = await fetch('http://localhost:8000/feedback');
+            const res = await fetch('/feedback');
             const data = await res.json();
             feedbackList.innerHTML = '';
             data.forEach(item => {
                 const li = document.createElement('li');
-                li.innerHTML = `<strong>⭐${item.rating}</strong> - ${item.text} <br><small>${new Date(item.timestamp).toLocaleString()}</small>`;
+                li.innerHTML = `Rating: ${item.rating} | ${item.text}<br><small>${new Date(item.timestamp).toLocaleString()}</small>`;
                 feedbackList.appendChild(li);
             });
         };
@@ -110,7 +93,7 @@
             const text = document.getElementById('text').value;
             const rating = document.getElementById('rating').value;
 
-            await fetch('http://localhost:8000/feedback', {
+            await fetch('/feedback', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text, rating })
@@ -120,9 +103,8 @@
             loadFeedbacks();
         });
 
-        loadFeedbacks();
         function downloadCSV() {
-            fetch('http://localhost:8000/feedback')
+            fetch('/feedback')
                 .then(res => res.json())
                 .then(data => {
                     const headers = ["text", "rating", "timestamp"];
@@ -139,7 +121,7 @@
         }
 
         function downloadJSON() {
-            fetch('http://localhost:8000/feedback')
+            fetch('/feedback')
                 .then(res => res.json())
                 .then(data => {
                     const jsonString = JSON.stringify(data, null, 2);
@@ -153,8 +135,8 @@
                 });
         }
 
+        loadFeedbacks();
     </script>
-
 </body>
 
 </html>
