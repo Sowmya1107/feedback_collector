@@ -6,50 +6,30 @@
     <title>Feedback Collector</title>
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: monospace;
             max-width: 800px;
             margin: 40px auto;
-            padding: 20px;
-            background-color: #f5f7fa;
-            color: #333;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            background-color: white;
+            color: black;
         }
 
-        h1,
-        h2 {
+        h1 {
             text-align: center;
-            color: #2c3e50;
         }
 
         textarea {
             width: 100%;
             height: 80px;
-            padding: 10px;
+            padding: 5px;
             font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
         }
 
         select,
         button {
-            padding: 8px 12px;
+            padding: 5px 10px;
             font-size: 14px;
-            margin-top: 10px;
-            border-radius: 4px;
-            border: none;
-        }
-
-        button {
-            background-color: #3498db;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        button:hover {
-            background-color: #2980b9;
+            margin-top: 5px;
         }
 
         ul {
@@ -58,30 +38,13 @@
         }
 
         li {
-            margin-bottom: 12px;
-            padding: 10px;
-            border-left: 5px solid #3498db;
-            background-color: #ffffff;
-            border-radius: 4px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px dashed #999;
         }
 
         small {
-            color: #777;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            justify-content: center;
-        }
-
-        .rating-summary {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 16px;
-            font-weight: bold;
+            color: #444;
         }
     </style>
 </head>
@@ -104,93 +67,75 @@
         <button type="submit">Submit Feedback</button>
     </form>
 
-    <div class="rating-summary">
-        Average Rating: <span id="avgRating">N/A</span>
-    </div>
-
     <h2>All Feedbacks</h2>
     <ul id="feedbackList"></ul>
 
-    <div class="buttons">
-        <button onclick="downloadCSV()">Download CSV</button>
-        <button onclick="downloadJSON()">Download JSON</button>
-    </div>
+    <button onclick="downloadCSV()">Download CSV</button>
+    <button onclick="downloadJSON()">Download JSON</button>
 
     <script>
         const form = document.getElementById('feedbackForm');
         const feedbackList = document.getElementById('feedbackList');
-        const avgRating = document.getElementById('avgRating');
 
         const loadFeedbacks = async () => {
             const res = await fetch('/feedback');
             const data = await res.json();
             feedbackList.innerHTML = '';
-
-            let total = 0;
-
             data.forEach(item => {
-                total += item.rating;
-
                 const li = document.createElement('li');
-                const localTime = new Date(item.timestamp).toLocaleString(undefined, {
-                    timeZoneName: 'short'
-                });
-
-                li.innerHTML = `<strong>Rating:</strong> ${item.rating} | ${item.text}<br><small>${localTime}</small>`;
-                feedbackList.appendChild(li);
+                li.innerHTML = Rating: ${ item.rating } | ${ item.text } <br><small>${new Date(item.timestamp).toLocaleString()}</small>;
+                    feedbackList.appendChild(li);
             });
-
-            avgRating.textContent = data.length ? (total / data.length).toFixed(2) : 'N/A';
         };
 
         form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const text = document.getElementById('text').value;
-            const rating = document.getElementById('rating').value;
+                        e.preventDefault();
+                    const text = document.getElementById('text').value;
+                    const rating = document.getElementById('rating').value;
 
-            await fetch('/feedback', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text, rating })
+                    await fetch('/feedback', {
+                        method: 'POST',
+                    headers: {'Content-Type': 'application/json' },
+                    body: JSON.stringify({text, rating})
             });
 
-            form.reset();
-            loadFeedbacks();
+                    form.reset();
+                    loadFeedbacks();
         });
 
-        function downloadCSV() {
-            fetch('/feedback')
-                .then(res => res.json())
-                .then(data => {
-                    const headers = ["text", "rating", "timestamp"];
-                    const rows = data.map(item => [item.text, item.rating, item.timestamp]);
-                    const csvContent = "data:text/csv;charset=utf-8," + [headers, ...rows].map(e => e.join(",")).join("\n");
-                    const encodedUri = encodeURI(csvContent);
-                    const link = document.createElement("a");
-                    link.setAttribute("href", encodedUri);
-                    link.setAttribute("download", "feedback.csv");
-                    document.body.appendChild(link);
-                    link.click();
-                    link.remove();
-                });
+                    function downloadCSV() {
+                        fetch('/feedback')
+                            .then(res => res.json())
+                            .then(data => {
+                                const headers = ["text", "rating", "timestamp"];
+                                const rows = data.map(item => [item.text, item.rating, item.timestamp]);
+                                let csvContent = "data:text/csv;charset=utf-8," + [headers, ...rows].map(e => e.join(",")).join("\n");
+                                const encodedUri = encodeURI(csvContent);
+                                const link = document.createElement("a");
+                                link.setAttribute("href", encodedUri);
+                                link.setAttribute("download", "feedback.csv");
+                                document.body.appendChild(link);
+                                link.click();
+                                link.remove();
+                            });
         }
 
-        function downloadJSON() {
-            fetch('/feedback')
-                .then(res => res.json())
-                .then(data => {
-                    const jsonString = JSON.stringify(data, null, 2);
-                    const blob = new Blob([jsonString], { type: "application/json" });
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement("a");
-                    link.href = url;
-                    link.download = "feedback.json";
-                    link.click();
-                    URL.revokeObjectURL(url);
-                });
+                    function downloadJSON() {
+                        fetch('/feedback')
+                            .then(res => res.json())
+                            .then(data => {
+                                const jsonString = JSON.stringify(data, null, 2);
+                                const blob = new Blob([jsonString], { type: "application/json" });
+                                const url = URL.createObjectURL(blob);
+                                const link = document.createElement("a");
+                                link.href = url;
+                                link.download = "feedback.json";
+                                link.click();
+                                URL.revokeObjectURL(url);
+                            });
         }
 
-        loadFeedbacks();
+                    loadFeedbacks();
     </script>
 </body>
 
