@@ -22,14 +22,16 @@ def submit_feedback():
     feedback = {
         "text": data["text"][:250],
         "rating": int(data["rating"]),
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.now().isoformat()  # Use server's local time
     }
     feedback_store.append(feedback)
     return jsonify({"message": "Feedback added"}), 201
 
+    
 @app.route('/feedback', methods=['GET'])
 def get_feedback():
     return jsonify(feedback_store), 200
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
