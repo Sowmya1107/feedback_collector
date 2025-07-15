@@ -1,4 +1,3 @@
-#!/bin/sh
-pip install -r requirements.txt
-python backend/app.py
+#!/bin/bash
+gunicorn backend.app:app --bind=0.0.0.0:8000
 
