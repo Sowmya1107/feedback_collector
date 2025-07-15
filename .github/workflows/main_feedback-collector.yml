@@ -9,6 +9,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:           # ✅ REQUIRED block for Azure OIDC login
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout code
