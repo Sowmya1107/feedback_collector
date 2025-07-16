@@ -1,12 +1,10 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from datetime import datetime
+from feedback_store import feedback_store
 import os
 
-# In-memory storage for feedbacks
-feedback_store = []
-
-# Adjust path so Flask knows where the HTML is
+# Initialize app
 app = Flask(__name__, static_folder='../frontend', static_url_path='/')
 CORS(app)
 
@@ -17,11 +15,14 @@ def serve_html():
 @app.route('/feedback', methods=['POST'])
 def submit_feedback():
     data = request.get_json()
+    print("Received data:", data)
+
     feedback = {
-        "text": data["text"][:250],
-        "rating": int(data["rating"]),
+        "text": data.get("text", "")[:250],
+        "rating": int(data.get("rating", 0)),
         "timestamp": datetime.now().isoformat()
     }
+
     feedback_store.append(feedback)
     return jsonify({"message": "Feedback added"}), 201
 
