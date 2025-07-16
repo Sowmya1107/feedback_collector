@@ -3,85 +3,128 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Feedback Collector</title>
     <style>
         body {
-            font-family: monospace;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 10px;
-            background-color: white;
-            color: black;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f7;
         }
 
-        h1 {
+        .container {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
             text-align: center;
         }
 
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         textarea {
-            width: 100%;
-            height: 80px;
-            padding: 5px;
-            font-size: 14px;
+            resize: vertical;
+            padding: 10px;
+            font-size: 16px;
+            min-height: 80px;
         }
 
         select,
         button {
-            padding: 5px 10px;
-            font-size: 14px;
-            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
         }
 
         ul {
-            list-style-type: none;
+            list-style: none;
             padding: 0;
         }
 
         li {
+            background: #f0f0f0;
             margin-bottom: 10px;
-            padding: 5px;
-            border: 1px dashed #999;
-        }
-
-        small {
-            color: #444;
+            padding: 10px;
+            border-left: 4px solid #999;
         }
 
         .average {
             text-align: center;
             font-weight: bold;
-            margin-top: 20px;
-            margin-bottom: 10px;
             font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .buttons button {
+            flex: 1 1 150px;
+        }
+
+        @media (max-width: 600px) {
+
+            h1,
+            h2 {
+                font-size: 20px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            button,
+            select,
+            textarea {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <h1>Feedback Collector</h1>
+    <div class="container">
+        <h1>Feedback Collector</h1>
 
-    <form id="feedbackForm">
-        <textarea id="text" placeholder="Enter your feedback..." maxlength="250" required></textarea><br><br>
+        <form id="feedbackForm">
+            <textarea id="text" placeholder="Enter your feedback..." maxlength="250" required></textarea>
 
-        <label for="rating">Rating (1 to 5):</label>
-        <select id="rating" required>
-            <option value="1">1 Star</option>
-            <option value="2">2 Stars</option>
-            <option value="3">3 Stars</option>
-            <option value="4">4 Stars</option>
-            <option value="5">5 Stars</option>
-        </select><br><br>
+            <label for="rating">Rating (1 to 5):</label>
+            <select id="rating" required>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
 
-        <button type="submit">Submit Feedback</button>
-    </form>
+            <button type="submit">Submit Feedback</button>
+        </form>
 
-    <div class="average">Average Rating: <span id="avgRating">N/A</span></div>
+        <div class="average">Average Rating: <span id="avgRating">N/A</span></div>
 
-    <h2>All Feedbacks</h2>
-    <ul id="feedbackList"></ul>
+        <h2>All Feedbacks</h2>
+        <ul id="feedbackList"></ul>
 
-    <button onclick="downloadCSV()">Download CSV</button>
-    <button onclick="downloadJSON()">Download JSON</button>
+        <div class="buttons">
+            <button onclick="downloadCSV()">Download CSV</button>
+            <button onclick="downloadJSON()">Download JSON</button>
+        </div>
+    </div>
 
     <script>
         const form = document.getElementById('feedbackForm');
@@ -109,14 +152,21 @@
             const text = document.getElementById('text').value;
             const rating = document.getElementById('rating').value;
 
-            await fetch('/feedback', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text, rating })
-            });
+            try {
+                const res = await fetch('/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text, rating })
+                });
 
-            form.reset();
-            loadFeedbacks();
+                if (!res.ok) throw new Error("Failed to submit");
+
+                form.reset();
+                loadFeedbacks();
+            } catch (err) {
+                alert("Error submitting feedback.");
+                console.error(err);
+            }
         });
 
         function downloadCSV() {
