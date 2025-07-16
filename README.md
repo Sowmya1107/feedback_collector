@@ -28,10 +28,11 @@ The Feedback Collector MVP fulfills all required functionalities:
 
 The application is deployed on Azure Web App (Linux, Python 3.11).
 
-### 2. Azure Deployment
-🔗 **Azure URL**: [https://feedback-collector-dvetbgf0gxh3djbp.westeurope-01.azurewebsites.net](https://feedback-collector-dvetbgf0gxh3djbp.westeurope-01.azurewebsites.net)  
-> Hosted live on Azure App Service (Linux, Python 3.11). Access the app to test real-time feedback collection.
+## Screenshot
 
+![Azure Deployment Screenshot](./deployment_screenshot.png)
+
+> Timestamp: 16 July 2025, 19:45 CEST
 
 
 
