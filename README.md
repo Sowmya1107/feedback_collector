@@ -30,7 +30,7 @@ The application is deployed on Azure Web App (Linux, Python 3.11).
 
 ## Screenshot
 
-![Azure Deployment Screenshot](./deployment_screenshot.png)
+![Azure Deployment Screenshot](./deployment.jpg)
 
 > Timestamp: 16 July 2025, 19:45 CEST
 
