@@ -17,8 +17,6 @@
 ## Project Description
 This project is a minimal internal feedback tool for team members to **anonymously submit feedback** about meetings. Users can submit text-based feedback and a 1–5 star rating. All feedbacks are shown with timestamps.
 
-The application is built with a **Flask backend** and a simple **HTML + JavaScript frontend**, with in-memory storage. It is structured for easy migration to a full database in the future.
-
 # 2. Results
 
 The Feedback Collector MVP fulfills all required functionalities:
@@ -31,12 +29,9 @@ The Feedback Collector MVP fulfills all required functionalities:
 The application is deployed on Azure Web App (Linux, Python 3.11).
 
 ### 2. Azure Deployment
-🔗 **Azure URL**: [https://feedbackcollector-webapp.azurewebsites.net](https://feedbackcollector-webapp.azurewebsites.net)
+🔗 **Azure URL**: [feedback-collector-dvetbgf0gxh3djbp.westeurope-01.azurewebsites.net)
 
 📄 Deployment screenshot with timestamp is provided in the screenshot section below.
 
----
 
-## Screenshot
 
-![Azure Deployment Screenshot](./deployment_screenshot.png)
