@@ -28,7 +28,8 @@ The Feedback Collector MVP fulfills all required functionalities:
 
 ## Azure Deployment
 
-🔗 **Azure URL**: [https://feedback-collector-dvetbgf0gxh3djbp.westeurope-01.azurewebsites.net](https://feedback-collector-dvetbgf0gxh3djbp.westeurope-01.azurewebsites.net) 
+🔗 **Azure URL**: https://feedback-collector-dvetbgf0gxh3djbp.westeurope-01.azurewebsites.net
+
 
 ## Screenshot
 
