@@ -21,17 +21,17 @@ This project is a minimal internal feedback tool for team members to **anonymous
 
 The Feedback Collector MVP fulfills all required functionalities:
 
-- ✅ Frontend for feedback entry and listing
-- ✅ REST API for feedback submission and retrieval
-- ✅ In-memory backend structure with extensibility
-- ✅ Azure deployment completed and accessible
+-  Frontend for feedback entry and listing
+-  REST API for feedback submission and retrieval
+-  In-memory backend structure with extensibility
+-  Azure deployment completed and accessible
 
 The application is deployed on Azure Web App (Linux, Python 3.11).
 
 ### 2. Azure Deployment
-🔗 **Azure URL**: [feedback-collector-dvetbgf0gxh3djbp.westeurope-01.azurewebsites.net)
+🔗 **Azure URL**: [https://feedback-collector-dvetbgf0gxh3djbp.westeurope-01.azurewebsites.net](https://feedback-collector-dvetbgf0gxh3djbp.westeurope-01.azurewebsites.net)  
+> Hosted live on Azure App Service (Linux, Python 3.11). Access the app to test real-time feedback collection.
 
-📄 Deployment screenshot with timestamp is provided in the screenshot section below.
 
 
 
