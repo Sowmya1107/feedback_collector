@@ -7,7 +7,7 @@
 - [1. Feedback Collector – Web App](#1-feedback-collector--web-app)
   - [Project Description](#project-description)
 - [2. Results](#2-results)
-    - [Azure Deployment](azure-deployment
+    - [Azure Deployment](#azure-deployment)
     - [Screenshot](#screenshot)
     
 &nbsp;  
