@@ -7,7 +7,7 @@
 - [1. Feedback Collector – Web App](#1-feedback-collector--web-app)
   - [Project Description](#project-description)
 - [2. Results](#2-results)
-    - [Azure Deployment](azure-deployment)
+    - [Azure Deployment](azure-deployment
     - [Screenshot](#screenshot)
     
 &nbsp;  
@@ -26,13 +26,14 @@ The Feedback Collector MVP fulfills all required functionalities:
 -  In-memory backend structure with extensibility
 -  Azure deployment completed and accessible
 
-The application is deployed on Azure Web App (Linux, Python 3.11).
+## Azure Deployment
+
+🔗 **Azure URL**: [https://feedback-collector-dvetbgf0gxh3djbp.westeurope-01.azurewebsites.net](https://feedback-collector-dvetbgf0gxh3djbp.westeurope-01.azurewebsites.net) 
 
 ## Screenshot
 
 ![Azure Deployment Screenshot](./deployment.jpg)
 
-> Timestamp: 16 July 2025, 19:45 CEST
 
 
 
